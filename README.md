@@ -1,2 +1,2 @@
 # Sanders
-A multi-threaded Kernel
+A multithreaded Kernel
