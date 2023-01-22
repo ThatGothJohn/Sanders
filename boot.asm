@@ -20,28 +20,10 @@ step2:
     mov sp, 0x7c00
     sti
 
-    mov ah, 2
-    mov al, 1
-    mov ch, 0
-    mov cl, 2
-    mov dh, 0
-    mov bx, buffer
-    int 0x13
-
-    jc error
-
     mov si, buffer
     call print
 
     jmp $
-
-error:
-    mov si, error_message
-    call print
-    jmp $
-
-error_message:
-    db 'Failed to load sector!', 0
 
 print:
     mov bx, 0
@@ -61,5 +43,3 @@ print_char:
 
 times 510-($ - $$) db 0
 dw 0xAA55
-
-buffer:
