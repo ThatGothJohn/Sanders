@@ -41,6 +41,7 @@ gdt_code:
     db 0
     db 0x9a
     db 0xcf
+    db 0
 
 gdt_data:
     dw 0xffff
