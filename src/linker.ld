@@ -3,11 +3,11 @@ OUTPUT_FORMAT(binary)
 SECTIONS
 {
     . = 1M;
-    .text :
+    .text : ALIGN(4096)
     {
         *(.text)
     }
-    .rodata :
+    .rodata : ALIGN(4096)
     {
         *(.rodata)
     }
@@ -15,9 +15,14 @@ SECTIONS
     {
         *(.data)
     }
-    .bss :
+    .bss : ALIGN(4096)
     {
         *(COMMON)
         *(.bss)
+    }
+
+    .asm : ALIGN(4096)
+    {
+        *(.asm)
     }
 }

@@ -19,3 +19,4 @@ make all-target-libgcc
 make install-gcc
 make install-target-libgcc
 popd || exit
+rm -rf ./compiler/
