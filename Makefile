@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := all
 
-FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o
+FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o ./build/io/io.asm.o
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
 
@@ -14,7 +14,7 @@ run: all
 	qemu-system-x86_64 -drive file=./bin/os.bin,format=raw
 
 setup_dirs:
-	mkdir -p build bin build/idt build/memory
+	mkdir -p build bin build/idt build/memory build/io
 
 ./bin/kernel.bin: $(FILES)
 	i686-elf-ld -g -relocatable $(FILES) -o ./build/kernelfull.o
@@ -37,6 +37,9 @@ setup_dirs:
 
 ./build/memory/memory.o: ./src/memory/memory.c
 	i686-elf-gcc $(INCLUDES) -I./src/memory $(FLAGS) -std=gnu18 -c ./src/memory/memory.c -o ./build/memory/memory.o
+
+./build/io/io.asm.o: ./src/io/io.asm
+	nasm -f elf -g ./src/io/io.asm -o ./build/io/io.asm.o
 
 clean:
 	rm -rf build bin

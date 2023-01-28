@@ -1,5 +1,6 @@
 #include "kernel.h"
 #include "idt/idt.h"
+#include "io/io.h"
 
 uint16_t* v_mem;
 
@@ -57,4 +58,6 @@ void kernel_main() {
     print("Hello World!\nKEKW");
 
     idt_init();
+
+    outb(0x60, 0xff);
 }
