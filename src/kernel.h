@@ -7,11 +7,9 @@
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 20
 
-size_t strlen(const char* str){
-    size_t len = 0;
-    while (str[len]) len++;
-    return len;
-}
+size_t strlen(const char* str);
+
+void print(const char* str);
 
 void kernel_main();
 

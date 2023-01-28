@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "idt/idt.h"
 
 uint16_t* v_mem;
 
@@ -26,6 +27,12 @@ void terminal_writechar(char c, char color){
     }
 }
 
+size_t strlen(const char* str){
+    size_t len = 0;
+    while (str[len]) len++;
+    return len;
+}
+
 void print(const char* str){
     size_t len = strlen(str);
     for (int i = 0; i < len; ++i) {
@@ -48,4 +55,6 @@ void terminal_init(){
 void kernel_main() {
     terminal_init();
     print("Hello World!\nKEKW");
+
+    idt_init();
 }
