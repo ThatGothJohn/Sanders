@@ -25,3 +25,5 @@ A multithreaded Kernel
 #### Notes for the dev once the tutorial is finished
 * 64-bit
 * slab allocator
+* refactor Makefile
+* refactor C
