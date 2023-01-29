@@ -1,5 +1,9 @@
 .DEFAULT_GOAL := all
 
+CPU = kvm32
+CORE_COUNT = 4
+MEMORY_SIZE = 2G
+
 FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o ./build/io/io.asm.o
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
@@ -11,7 +15,7 @@ all: setup_dirs ./bin/boot.bin ./bin/kernel.bin
 	dd if=/dev/zero bs=512 count=100 >> ./bin/os.bin
 
 run:
-	qemu-system-x86_64 -drive file=./bin/os.bin,format=raw
+	qemu-system-x86_64 -drive file=./bin/os.bin,format=raw -cpu $(CPU) -m $(MEMORY_SIZE) -smp $(CORE_COUNT)
 
 setup_dirs:
 	mkdir -p build bin build/idt build/memory build/io
