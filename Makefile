@@ -10,7 +10,7 @@ all: setup_dirs ./bin/boot.bin ./bin/kernel.bin
 	dd if=./bin/kernel.bin >> ./bin/os.bin
 	dd if=/dev/zero bs=512 count=100 >> ./bin/os.bin
 
-run: all
+run:
 	qemu-system-x86_64 -drive file=./bin/os.bin,format=raw
 
 setup_dirs:
