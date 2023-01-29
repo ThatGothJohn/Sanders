@@ -21,3 +21,7 @@ A multithreaded Kernel
 ## Build and run
 * ```./build.sh```
 * ```make run```
+
+#### Notes for the dev once the tutorial is finished
+* 64-bit
+* slab allocator
