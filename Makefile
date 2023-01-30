@@ -4,7 +4,7 @@ CPU = kvm32
 CORE_COUNT = 4
 MEMORY_SIZE = 2G
 
-FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o ./build/io/io.asm.o
+FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o ./build/io/io.asm.o ./build/memory/heap/heap.o ./build/memory/heap/kheap.o
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
 
@@ -18,7 +18,7 @@ run:
 	qemu-system-x86_64 -drive file=./bin/os.bin,format=raw -cpu $(CPU) -m $(MEMORY_SIZE) -smp $(CORE_COUNT)
 
 setup_dirs:
-	mkdir -p build bin build/idt build/memory build/io
+	mkdir -p build bin build/idt build/memory build/io build/memory/heap
 
 ./bin/kernel.bin: $(FILES)
 	i686-elf-ld -g -relocatable $(FILES) -o ./build/kernelfull.o
@@ -44,6 +44,12 @@ setup_dirs:
 
 ./build/io/io.asm.o: ./src/io/io.asm
 	nasm -f elf -g ./src/io/io.asm -o ./build/io/io.asm.o
+
+./build/memory/heap/heap.o: ./src/memory/heap/heap.c
+	i686-elf-gcc $(INCLUDES) -I./src/memory/heap $(FLAGS) -std=gnu18 -c ./src/memory/heap/heap.c -o ./build/memory/heap/heap.o
+
+./build/memory/heap/kheap.o: ./src/memory/heap/kheap.c
+	i686-elf-gcc $(INCLUDES) -I./src/memory/heap $(FLAGS) -std=gnu18 -c ./src/memory/heap/kheap.c -o ./build/memory/heap/kheap.o
 
 clean:
 	rm -rf build bin

@@ -1,6 +1,7 @@
 #include "kernel.h"
 #include "idt/idt.h"
 #include "io/io.h"
+#include "memory/heap/kheap.h"
 
 uint16_t* v_mem;
 
@@ -56,6 +57,8 @@ void terminal_init(){
 void kernel_main() {
     terminal_init();
     print("Hello World!\nKEKW");
+
+    kheap_init();
 
     idt_init();
 
