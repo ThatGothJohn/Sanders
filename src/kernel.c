@@ -2,6 +2,7 @@
 #include "idt/idt.h"
 #include "io/io.h"
 #include "memory/heap/kheap.h"
+#include "memory/paging/paging.h"
 
 uint16_t* v_mem;
 
@@ -54,6 +55,7 @@ void terminal_init(){
     }
 }
 
+static struct paging_4gb_chunk* kernel_chunk = 0;
 void kernel_main() {
     terminal_init();
     print("Hello World!\nKEKW");
@@ -61,6 +63,12 @@ void kernel_main() {
     kheap_init();
 
     idt_init();
+
+    kernel_chunk = paging_new_4gb(PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
+
+    paging_switch(kernel_chunk->directory_entry);
+
+    enable_paging();
 
     enable_interrupts();
 }
